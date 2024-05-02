@@ -22,20 +22,16 @@
 module ALU(
     input [31:0]ALU_A,
     input [31:0]ALU_B,
-    input [31:0]ALU_OP,
+    input [3:0]ALU_OP,
     output [31:0]ALU_F,
-    output ZF,
-    output CF,
-    output OF,
-    output SF
+    output reg[3:0]flag
 );
 
-reg C32;
-reg tmp;
-reg add;
-reg [3:0]flag;
-reg [31:0]F;
-integer cnt;
+reg C32;//最高位进位
+reg tmp;//暂存变量
+reg add;//是否为加法
+reg [31:0]F;//运算结果
+integer cnt;//循环计数变量
 
 always@(*)
 begin
@@ -70,7 +66,6 @@ end
 
 add=(ALU_OP==4'b0000)?1:0;
 
-
 flag[2]=add^C32;
 
 flag[1]=ALU_A[31]^ALU_B[31]^C32^F[31];
@@ -80,13 +75,5 @@ flag[0]=F[31];
 end
 
 assign ALU_F=F;
-
-assign ZF=flag[3];
-
-assign CF=flag[2];
-
-assign OF=flag[1];
-
-assign SF=flag[0];
 
 endmodule
