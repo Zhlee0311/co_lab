@@ -23,9 +23,9 @@
 module DISPLAY(
     input clk,//芯片时钟
     input [31:0]data,//数据
-    output reg enable=1,//译码器使能信号
-    output reg[2:0]which,//位选
-    output reg[7:0]seg//段选
+    output enable,//译码器使能信�?
+    output reg[2:0]which,//位�??
+    output reg[7:0]seg//段�??
 );
 reg [14:0]count;
 reg [3:0]digit;
