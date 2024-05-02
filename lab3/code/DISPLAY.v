@@ -21,11 +21,11 @@
 
 
 module DISPLAY(
-    input clk,//鑺墖鏃堕挓
-    input [31:0]data,//鏁版嵁
-    output enable,//璇戠爜鍣ㄤ娇鑳戒俊鍙?
-    output reg[2:0]which,//浣嶉??
-    output reg[7:0]seg//娈甸??
+    input clk,//芯片时钟
+    input [31:0]data,//数据
+    output enable,//译码器使能信号
+    output reg[2:0]which,//位选
+    output reg[7:0]seg//段选
 );
 reg [14:0]count;
 reg [3:0]digit;
