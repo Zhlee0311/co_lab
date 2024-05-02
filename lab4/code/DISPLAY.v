@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2024/05/02 11:03:09
+// Create Date: 2024/05/02 15:40:02
 // Design Name: 
 // Module Name: DISPLAY
 // Project Name: 
@@ -21,11 +21,11 @@
 
 
 module DISPLAY(
-    input clk,//芯片时钟
-    input [31:0]data,//数据
-    output enable,//译码器使能信号
-    output reg[2:0]which,//位选
-    output reg[7:0]seg//段选
+    input clk,
+    input [31:0]data,
+    output enable,
+    output reg[2:0]which,
+    output reg[7:0]seg
 );
 reg [14:0]count;
 reg [3:0]digit;
@@ -76,5 +76,4 @@ always@(*)begin
         4'hF:seg<=8'b0111_0001;
     endcase
 end
-
 endmodule

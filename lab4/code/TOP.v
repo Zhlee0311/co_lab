@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2024/05/02 11:56:37
+// Create Date: 2024/05/02 15:09:31
 // Design Name: 
-// Module Name: ALL
+// Module Name: TOP
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,21 +20,25 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ALL(
-    input clk,
+module TOP(
     input clk_rst,
-    input clk_A,
-    input clk_B,
+    input clk_RR,
     input clk_F,
-    input [31:0]data_in,
-    output [3:0]leds,
-    output [2:0]which,
-    output [7:0]seg
+    input clk_WB,
+    input [4:0]R_Addr_A,
+    input [4:0]R_Addr_B,
+    input [4:0]W_Addr,
+    input [3:0]ALU_OP,
+    input Reg_Write,
+    output [31:0]F,
+    output [3:0]FR
 );
 
-wire [31:0]res_tmp;
+wire [31:0]A;
+wire [31:0]B;
 
-TOP u1(clk_rst,clk_A,clk_B,clk_F,data_in,res_tmp,leds);
-DISPLAY u2(clk,res_tmp,1,which,seg);
+REG_HEAP u1(clk_rst,clk_WB,Reg_Write,R_Addr_A,R_Addr_B,W_Addr,F,A,B);
+
+ALU_TOP u2(clk_rst,clk_RR,clk_F,ALU_OP,A,B,F,FR);
 
 endmodule

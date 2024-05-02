@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2024/05/02 11:56:37
+// Create Date: 2024/05/02 13:55:58
 // Design Name: 
-// Module Name: ALL
+// Module Name: REG32
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,21 +20,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ALL(
-    input clk,
+module REG32(
     input clk_rst,
-    input clk_A,
-    input clk_B,
-    input clk_F,
+    input clk_in,
     input [31:0]data_in,
-    output [3:0]leds,
-    output [2:0]which,
-    output [7:0]seg
+    output[31:0]data_out
 );
+reg [31:0]tmp;
 
-wire [31:0]res_tmp;
+always@(negedge clk_rst or posedge clk_in)
+begin
+    if(!clk_rst)
+        tmp<=32'b0;
+    else
+        tmp<=data_in;
+end
 
-TOP u1(clk_rst,clk_A,clk_B,clk_F,data_in,res_tmp,leds);
-DISPLAY u2(clk,res_tmp,1,which,seg);
+assign data_out=tmp;
 
 endmodule

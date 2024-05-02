@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2024/05/02 11:56:37
+// Create Date: 2024/05/02 15:39:41
 // Design Name: 
 // Module Name: ALL
 // Project Name: 
@@ -23,18 +23,22 @@
 module ALL(
     input clk,
     input clk_rst,
-    input clk_A,
-    input clk_B,
+    input clk_RR,
     input clk_F,
-    input [31:0]data_in,
+    input clk_WB,
+    input [4:0]R_Addr_A,
+    input [4:0]R_Addr_B,
+    input [4:0]W_Addr,
+    input [3:0]ALU_OP,
+    input Reg_Write,
     output [3:0]leds,
     output [2:0]which,
     output [7:0]seg
 );
 
-wire [31:0]res_tmp;
+wire [31:0]F_tmp;
 
-TOP u1(clk_rst,clk_A,clk_B,clk_F,data_in,res_tmp,leds);
-DISPLAY u2(clk,res_tmp,1,which,seg);
+TOP U1(clk_rst,clk_RR,clk_F,clk_WB,R_Addr_A,R_Addr_B,W_Addr,ALU_OP,Reg_Write,F_tmp,leds);
+DISPLAY U2(clk,F_tmp,1,which,seg);
 
 endmodule
