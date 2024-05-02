@@ -37,5 +37,6 @@ wire [3:0]flag_tmp;
 
 TOP u1(clk_rst,clk_A,clk_B,clk_F,data_in,res_tmp,flag_tmp);
 DISPLAY u2(clk,res_tmp,1,which,seg);
+assign leds=flag_tmp;
 
 endmodule
