@@ -21,30 +21,26 @@
 
 
 module DISPLAY(
-    input clk,
-    input [31:0]data,
-    output enable,
-    output reg[2:0]which,
-    output reg[7:0]seg
+    input clk,//芯片时钟
+    input [31:0]data,//数据
+    output enable,//译码器使能信号
+    output [2:0]which,//位选
+    output reg[7:0]seg//段选
 );
-reg [14:0]count;
+reg which_temp=0;
+reg [14:0]count=0;
 reg [3:0]digit;
-
-initial begin
-    count=0;
-    which=0;
-end
 
 always@(posedge clk)count<=count+1'b1;
 always@(negedge clk)begin
     if(&count)
         begin
-            which<=which+1'b1;
+            which_temp<=which_temp+1'b1;
         end
 end
 
 always@(*)begin
-    case(which)
+    case(which_temp)
         3'b000:digit<=data[31:28];
         3'b001:digit<=data[27:24];
         3'b010:digit<=data[23:20];
@@ -76,4 +72,8 @@ always@(*)begin
         4'hF:seg<=8'b0111_0001;
     endcase
 end
+
+assign which=which_temp;
+
 endmodule
+

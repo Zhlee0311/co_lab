@@ -32,18 +32,9 @@ module REG_HEAP(
     output [31:0]R_Data_B
 );
 
-reg [31:0]REG_Files[0:31];
+reg [31:0] REG_Files [0:31];
 
 integer i;
-
-initial begin
-    for(i=0;i<=31;i=i+1)begin
-        REG_Files[i]=32'b0;
-    end
-    REG_Files[1]=1;
-    REG_Files[2]=2;//测试数据
-end
-
 
 always@(negedge clk_rst or posedge clk_Regs)begin
     if(!clk_rst)begin
