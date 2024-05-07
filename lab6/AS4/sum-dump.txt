@@ -1,0 +1,21 @@
+
+sum.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <sum>:
+   0:	00000513          	li	a0,0
+   4:	00000593          	li	a1,0
+
+00000008 <loop>:
+   8:	00150513          	add	a0,a0,1
+   c:	00a585b3          	add	a1,a1,a0
+  10:	fe551ce3          	bne	a0,t0,8 <loop>
+  14:	00008067          	ret
+
+00000018 <main>:
+  18:	06400293          	li	t0,100
+  1c:	fe5ff0ef          	jal	0 <sum>
+  20:	00b00333          	add	t1,zero,a1
+  24:	00008067          	ret

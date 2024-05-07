@@ -1,0 +1,25 @@
+
+move.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <BankMove>:
+   0:	000502b3          	add	x5,x10,x0
+   4:	00058333          	add	x6,x11,x0
+   8:	000603b3          	add	x7,x12,x0
+
+0000000c <L1>:
+   c:	0002ae03          	lw	x28,0(x5)
+  10:	01c32023          	sw	x28,0(x6)
+  14:	0291                	c.addi	x5,4
+  16:	0311                	c.addi	x6,4
+  18:	13fd                	c.addi	x7,-1
+  1a:	fe0399e3          	bne	x7,x0,c <L1>
+  1e:	8082                	c.jr	x1
+
+00000020 <main>:
+  20:	03000513          	addi	x10,x0,48
+  24:	06000593          	addi	x11,x0,96
+  28:	4629                	c.li	x12,10
+  2a:	3fd9                	c.jal	0 <BankMove>

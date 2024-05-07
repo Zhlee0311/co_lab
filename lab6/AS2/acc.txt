@@ -1,0 +1,21 @@
+
+acc.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <main>:
+   0:	000002b3          	add	t0,zero,zero
+   4:	00000333          	add	t1,zero,zero
+   8:	43a9                	li	t2,10
+
+0000000a <L1>:
+   a:	04032e03          	lw	t3,64(t1)
+   e:	92f2                	add	t0,t0,t3
+  10:	0311                	add	t1,t1,4
+  12:	13fd                	add	t2,t2,-1
+  14:	00038363          	beqz	t2,1a <L2>
+  18:	bfcd                	j	a <L1>
+
+0000001a <L2>:
+  1a:	08502023          	sw	t0,128(zero) # 80 <L2+0x66>
