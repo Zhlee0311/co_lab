@@ -1,78 +1,66 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2024/05/02 22:25:18
-// Design Name: 
-// Module Name: DISPLAY
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
+module DISPLAY(clk,data,which,seg);
+input clk;//芯片时钟
+input [32:1]data;//数据输入
+output reg[3:0]which;//数码管位选
+output reg[7:0]seg;//数码管段选
 
-module DISPLAY(
-    input clk,//芯片时钟
-    input [31:0]data,//数据
-    output enable,//译码器使能信号
-    output [2:0]which,//位选
-    output reg[7:0]seg//段选
-);
-reg which_temp=0;
-reg [14:0]count=0;
-reg [3:0]digit;
+reg[14:0]count;
+reg[3:0]digit;
+reg [2:0]sel;
 
+initial begin
+    count<=0;
+    sel<=0;
+end
+
+//实现了分频
 always@(posedge clk)count<=count+1'b1;
-always@(negedge clk)begin
-    if(&count)
-        begin
-            which_temp<=which_temp+1'b1;
-        end
-end
+always@(negedge clk)if(&count)sel<=sel+1'b1;
 
-always@(*)begin
-    case(which_temp)
-        3'b000:digit<=data[31:28];
-        3'b001:digit<=data[27:24];
-        3'b010:digit<=data[23:20];
-        3'b011:digit<=data[19:16];
-        3'b100:digit<=data[15:12];
-        3'b101:digit<=data[11:8];
-        3'b110:digit<=data[7:4];
-        3'b111:digit<=data[3:0];
-    endcase
-end
+always@(*)
+begin
+  case(sel)
+  3'b000:digit<=data[32:29];
+  3'b001:digit<=data[28:25];
+  3'b010:digit<=data[24:21];
+  3'b011:digit<=data[20:17];
+  3'b100:digit<=data[16:13];
+  3'b101:digit<=data[12:9];
+  3'b110:digit<=data[8:5];
+  3'b111:digit<=data[4:1];
+  endcase
 
-always@(*)begin
-    case(digit)
-        4'h0:seg<=8'b0000_0011;
-        4'h1:seg<=8'b1001_1111;
-        4'h2:seg<=8'b0010_0101;
-        4'h3:seg<=8'b0000_1101;
-        4'h4:seg<=8'b1001_1001;
-        4'h5:seg<=8'b0100_1001;
-        4'h6:seg<=8'b0100_0001;
-        4'h7:seg<=8'b0001_1111;
-        4'h8:seg<=8'b0000_0001;
-        4'h9:seg<=8'b0000_1001;
-        4'hA:seg<=8'b0001_0001;
-        4'hB:seg<=8'b1100_0001;
-        4'hC:seg<=8'b0110_0011;
-        4'hD:seg<=8'b1000_0101;
-        4'hE:seg<=8'b0110_0001;
-        4'hF:seg<=8'b0111_0001;
-    endcase
-end
+  case(sel)
+  3'b000:which<=4'b1000;
+  3'b001:which<=4'b1001;
+  3'b010:which<=4'b1010;
+  3'b011:which<=4'b1011;
+  3'b100:which<=4'b1100;
+  3'b101:which<=4'b1101;
+  3'b110:which<=4'b1110;
+  3'b111:which<=4'b1111;
+  endcase
 
-assign which=which_temp;
+  case(digit)
+   4'h0:seg<=8'b0000_0011;
+   4'h1:seg<=8'b1001_1111;
+   4'h2:seg<=8'b0010_0101;
+   4'h3:seg<=8'b0000_1101;
+   4'h4:seg<=8'b1001_1001;
+   4'h5:seg<=8'b0100_1001;
+   4'h6:seg<=8'b0100_0001;
+   4'h7:seg<=8'b0001_1111;
+   4'h8:seg<=8'b0000_0001;
+   4'h9:seg<=8'b0000_1001;
+   4'hA:seg<=8'b0001_0001;
+   4'hB:seg<=8'b1100_0001;
+   4'hC:seg<=8'b0110_0011;
+   4'hD:seg<=8'b1000_0101;
+   4'hE:seg<=8'b0110_0001;
+   4'hF:seg<=8'b0111_0001;
+  endcase
+end
 
 endmodule

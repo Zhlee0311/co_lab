@@ -1,31 +1,12 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2024/05/03 09:01:00
-// Design Name: 
-// Module Name: TOP
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
 module TOP (
-    input clk,//芯片时钟
-    input clk_dm,//存储器时钟
+    input clk,//芯片时钟-DISPLAY
+    input clk_dm,//存储器时钟（上升沿有效）-RAM_B
     input Mem_Write,//读写信号
     input [7:2]DM_Addr,//访问的地址
     input [1:0]MW_Data_s,//开关，用于选择写入的数据
-    output [2:0]which,//位选
+    output [3:0]which,//位选（最高位为使能）
     output [7:0]seg//段选
 );
 
@@ -45,6 +26,6 @@ end//组合逻辑电路：当信号Mem_Write=1时，根据MW_Data_s选择M_W_Dat
 
 RAM_B u1(clk_dm,Mem_Write,DM_Addr,M_W_Data,M_R_Data);
 
-DISPLAY u2(clk,M_R_Data,1,which,seg);
+DISPLAY u2(clk,M_R_Data,which,seg);
 
 endmodule
