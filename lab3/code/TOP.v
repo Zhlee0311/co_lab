@@ -1,45 +1,24 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2024/05/02 10:26:22
-// Design Name: 
-// Module Name: TOP
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
 
-module TOP(
-    input clk_rst,
-    input clk_A,
-    input clk_B,
-    input clk_F,
-    input [31:0]data,
-    output [31:0]result,
-    output [3:0]flag
-);
+module TOP(rst,clk,clk_A,clk_B,clk_F,data,leds,which,seg);
 
-wire [31:0]A;
-wire [31:0]B;
-wire [31:0]F;
-wire [3:0]flag_tmp;
+input rst,clk,clk_A,clk_B,clk_F;//时序信号
 
-REG32 getA(clk_rst,clk_A,data,A);
-REG32 getB(clk_rst,clk_B,data,B);
-ALU    alu(A,B,data[3:0],F,flag_tmp);
-REG32 getF(clk_rst,clk_F,F,result);
-REG4  getFR(clk_rst,clk_F,flag_tmp,flag);
+input [31:0]data;
+
+output [3:0]leds;
+
+output [3:0]which;
+
+output [7:0]seg;
+
+wire [31:0]A,B,F;
+
+
+ALU_REG u1(data[3:0],data,data,rst,clk_A,clk_B,clk_F,A,B,F,leds);
+
+DISPLAY u2(clk,F,which,seg);
 
 
 endmodule
