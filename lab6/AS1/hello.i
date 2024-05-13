@@ -1272,10 +1272,9 @@ _putchar_unlocked(int _c)
 
 # 2 "hello.c" 2
 
-
-# 3 "hello.c"
+# 2 "hello.c"
 int main()
 {
-  printf("hello,world\n");
+  printf("Hello,World!\n");
   return 0;
 }

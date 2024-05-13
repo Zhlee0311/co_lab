@@ -23,7 +23,7 @@
   14:	00038363          	beq	x7,x0,1a <L2>
   18:	bfcd                	c.j	a <L1>
 ```
-由此可知 `j L1` 是由 `RV32C压缩指令集` 中的 `C.J imm` 指令实现的，其拓展形式为 `RV32I指令集` 中的 `jal x0,offset`
+由此可知 `j L1` 是由 **RV32C压缩指令集** 中的 `C.J imm` 指令实现的，其拓展形式为 **RV32I指令集** 中的 `jal x0,offset`
 
 **Note**:
 
@@ -37,8 +37,8 @@
   3. `jal x0,offset` = `PC + SE32(offset*2) -> PC`
 
 
-### 3.补充
-经过 **两天时间** 的探索，我发现以上的分析是不正确的，因为以上的编译是基于 `RV32C` 指令集进行的,所以才会出现 `16` 位的指令
+### 3. 补充
+经过 **两天时间** 的探索，我发现以上的分析是不正确的，因为以上的 **编译** 是基于 **RV32C指令集（一个RISCV的压缩指令拓展集）** 进行的,所以 **反汇编** 时才会出现 `16` 位的指令，由此可知 **工具链** 出现了问题
 
 通过阅读[riscv-gnu-toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain)的编译说明，以及[USTC CECS 2023](https://soc.ustc.edu.cn/CECS/lab0/riscv/)，我重新下载了[RISC-V 交叉编译工具链源码](https://soc.ustc.edu.cn/CECS/appendix/riscv64.tar.gz)，并根据以上的说明进行了 **带参数的编译**
 
@@ -71,6 +71,16 @@
   24:	08502023          	sw	t0,128(zero) # 80 <L2+0x5c>
 ```
 可以看到，所有的指令都是 **32位** 了，这样直接对照 **RV32I** 指令集就可以分析指令含义了
+
+### 4. 基于补充的再分析
+
+观察到 `j c<L1>` 所对应的 **RISCV指令** 为 `fedff06f`,转换为二进制形式：`1111_1110_1101_1111_1111_0000_0110_1111`
+
+![Imgur](https://i.imgur.com/YydZCr3.png)
+
+对比[RISCV指令格式](https://zhuanlan.zhihu.com/p/261705919),可以看出 `j c<L1>` 的二进制指令的 **opcode** 与 `jal` 的 **opcode=1101111** 相对应，由此可以得出 `j L1` 是用 `jal` 指令实现的
+
+
 
 
 

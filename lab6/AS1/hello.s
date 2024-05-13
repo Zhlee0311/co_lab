@@ -7,7 +7,7 @@
 	.section	.rodata
 	.align	2
 .LC0:
-	.string	"hello,world"
+	.string	"Hello,World!"
 	.text
 	.align	2
 	.globl	main
