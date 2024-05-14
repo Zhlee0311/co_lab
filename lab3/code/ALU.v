@@ -20,7 +20,7 @@ module ALU (
   reg C;
 
   assign ZF = (F == 32'h0000_0000) ? 1 : 0;
-  assign CF = C;  //此处存疑，可能需要异或一个add/sub信号
+  assign CF = C;  
   assign OF = A[31] ^ B[31] ^ C ^ F[31];  //双符号位判溢出
   assign SF = F[31];
 
