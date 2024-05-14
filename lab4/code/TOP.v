@@ -1,44 +1,67 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2024/05/02 15:09:31
-// Design Name: 
-// Module Name: TOP
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
-
-module TOP(
-    input clk_rst,
-    input clk_RR,
-    input clk_F,
-    input clk_WB,
-    input [4:0]R_Addr_A,
-    input [4:0]R_Addr_B,
-    input [4:0]W_Addr,
-    input [3:0]ALU_OP,
-    input Reg_Write,
-    output [31:0]F,
-    output [3:0]FR
+module TOP (
+    clk,  //芯片时钟信号
+    rst,  //复位信号
+    clk_RR,  //ALU暂存器时钟信号
+    clk_F,
+    clk_WB,  //Write Back时钟信号
+    R_Addr_A,
+    R_Addr_B,
+    W_Addr,
+    ALU_OP,
+    Reg_Write,
+    leds,  //标志位接入led灯
+    which,
+    seg
 );
 
-wire [31:0]A;
-wire [31:0]B;
+  input clk, rst, clk_RR, clk_F, clk_WB;
+  input [4:0] R_Addr_A, R_Addr_B, W_Addr;
+  input [3:0] ALU_OP;
+  input Reg_Write;
+  output [3:0] leds;
+  output [3:0] which;
+  output [7:0] seg;
 
-REG_HEAP u1(clk_rst,clk_WB,Reg_Write,R_Addr_A,R_Addr_B,W_Addr,F,A,B);
 
-ALU_TOP u2(clk_rst,clk_RR,clk_F,ALU_OP,A,B,F,FR);
+
+  wire [31:0] Data_A, Data_B, A, B, F;
+
+
+  REG_HEAP u1 (
+      .rst(rst),
+      .clk_Regs(clk_WB),
+      .Reg_Write(Reg_Write),
+      .R_Addr_A(R_Addr_A),
+      .R_Addr_B(R_Addr_B),
+      .W_Addr(W_Addr),
+      .W_Data(F),
+      .R_Data_A(Data_A),
+      .R_Data_B(Data_B)
+  );
+
+
+  ALU_REG u2 (
+      .ALU_OP(ALU_OP),
+      .Data_A(Data_A),
+      .Data_B(Data_B),
+      .rst(rst),
+      .clk_RR(clk_RR),
+      .clk_F(clk_F),
+      .A(A),
+      .B(B),
+      .F(F),
+      .FR(leds)
+  );
+
+
+  DISPLAY u3 (
+      .clk  (clk),
+      .data (F),
+      .which(which),
+      .seg  (seg)
+  );
+
 
 endmodule
