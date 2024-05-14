@@ -1,42 +1,42 @@
 `timescale 1ns / 1ps
 module sim;
 
-reg [3:0]ALU_OP;
-reg [31:0]Data_A,Data_B;
-reg rst,clk_A,clk_B,clk_F;
+  reg [3:0] ALU_OP;
+  reg [31:0] Data_A, Data_B;
+  reg rst, clk_A, clk_B, clk_F;
 
 
-wire [31:0]A,B,F;
-wire [3:0]FR;
+  wire [31:0] A, B, F;
+  wire [3:0] FR;
 
 
-ALU_REG uut(
-    .ALU_OP(ALU_OP),
-    .Data_A(Data_A),
-    .Data_B(Data_B),
-    .rst(rst),
-    .clk_A(clk_A),
-    .clk_B(clk_B),
-    .clk_F(clk_F),
-    .A(A),
-    .B(B),
-    .F(F),
-    .FR(FR)
-);
+  ALU_REG uut (
+      .ALU_OP(ALU_OP),
+      .Data_A(Data_A),
+      .Data_B(Data_B),
+      .rst(rst),
+      .clk_A(clk_A),
+      .clk_B(clk_B),
+      .clk_F(clk_F),
+      .A(A),
+      .B(B),
+      .F(F),
+      .FR(FR)
+  );
 
-always #5 clk_A=~clk_A;
-always #5 clk_B=~clk_B;
-always #1 clk_F=~clk_F;
+  always #5 clk_A = ~clk_A;
+  always #5 clk_B = ~clk_B;
+  always #1 clk_F = ~clk_F;
 
 
-initial begin
-    ALU_OP=4'b0000;
-    Data_A=32'h0000_0001;
-    Data_B=32'h0000_0002;
-    rst=0;
-    clk_A=0;
-    clk_B=0;
-    clk_F=0;
+  initial begin
+    ALU_OP = 4'b0000;
+    Data_A = 32'h0000_0001;
+    Data_B = 32'h0000_0002;
+    rst = 0;
+    clk_A = 0;
+    clk_B = 0;
+    clk_F = 0;
 
     #10;
     //加法
@@ -88,9 +88,8 @@ initial begin
     #5 Data_B = 5;
     #5 ALU_OP = 4'b1101;
 
-    #1000
-    $finish;
-end
+    #1000 $finish;
+  end
 
 
 endmodule
