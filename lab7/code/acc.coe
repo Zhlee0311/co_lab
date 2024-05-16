@@ -1,0 +1,2 @@
+memory_initialization_radix=16;
+memory_initialization_vector=000002b3,00000333,00a00393,04032e03,01c282b3,00430313,fff38393,00038463,fedff06f,08502023;

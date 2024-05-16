@@ -1,0 +1,5 @@
+ROM_B your_instance_name (
+  .clka(clka),    // input wire clka
+  .addra(addra),  // input wire [5 : 0] addra
+  .douta(douta)  // output wire [31 : 0] douta
+);
