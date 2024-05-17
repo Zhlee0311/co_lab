@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 module IF (
     rst,  //复位信号
     clk,  //整个取指令模块的时钟信号

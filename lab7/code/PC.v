@@ -14,8 +14,8 @@ module PC (
   output reg [5:0] out;
 
 
-  wire [31:0]in;      //写入PC的信号
-  reg [31:0] PC_tmp;  //作为PC的暂存信号，用于自增
+  wire [31:0] in;  //写入PC的信号
+  reg  [31:0] PC_tmp;  //作为PC的暂存信号，用于自增
 
 
   ADDER adder (

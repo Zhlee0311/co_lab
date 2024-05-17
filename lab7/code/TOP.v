@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 module TOP (
     rst,  //复位信号
     clk_im,  //整个模块的时钟信号
@@ -26,35 +25,35 @@ module TOP (
   output [7:0] seg;
 
 
-wire [31:0]inst;
-wire [31:0]imm;
+  wire [31:0] inst;
+  wire [31:0] imm;
 
 
-IF u_if(
-    .rst(rst),
-    .clk(clk_im),
-    .IR_Write(IR_Write),
-    .PC_Write(PC_Write),
-    .inst(inst)
-);
+  IF u_if (
+      .rst(rst),
+      .clk(clk_im),
+      .IR_Write(IR_Write),
+      .PC_Write(PC_Write),
+      .inst(inst)
+  );
 
-ID1 u_id1(
-    .inst(inst),
-    .rs1(rs1),
-    .rs2(rs2),
-    .rd(rd),
-    .opcode(opcode),
-    .funct3(funct3),
-    .funct7(funct7),
-    .imm(imm)
-);
+  ID1 u_id1 (
+      .inst(inst),
+      .rs1(rs1),
+      .rs2(rs2),
+      .rd(rd),
+      .opcode(opcode),
+      .funct3(funct3),
+      .funct7(funct7),
+      .imm(imm)
+  );
 
-DISPLAY u_display(
-    .clk(clk),
-    .data(imm),
-    .which(which),
-    .seg(seg)
-);
+  DISPLAY u_display (
+      .clk  (clk),
+      .data (imm),
+      .which(which),
+      .seg  (seg)
+  );
 
 
 endmodule

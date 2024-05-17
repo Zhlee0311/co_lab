@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 module IR (
     rst,  //复位信号
     clk,  //IR的时钟信号
