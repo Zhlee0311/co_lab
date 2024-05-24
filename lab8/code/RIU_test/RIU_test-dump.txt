@@ -1,0 +1,34 @@
+
+RIU_test.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <main>:
+   0:	87600093          	li	ra,-1930
+   4:	00400113          	li	sp,4
+   8:	002081b3          	add	gp,ra,sp
+   c:	40208233          	sub	tp,ra,sp
+  10:	002092b3          	sll	t0,ra,sp
+  14:	0020d333          	srl	t1,ra,sp
+  18:	4020d3b3          	sra	t2,ra,sp
+  1c:	0020a433          	slt	s0,ra,sp
+  20:	0020b4b3          	sltu	s1,ra,sp
+  24:	0062f533          	and	a0,t0,t1
+  28:	0062e5b3          	or	a1,t0,t1
+  2c:	0062c633          	xor	a2,t0,t1
+  30:	800006b7          	lui	a3,0x80000
+  34:	fff68713          	add	a4,a3,-1 # 7fffffff <main+0x7fffffff>
+  38:	12370793          	add	a5,a4,291
+  3c:	00379813          	sll	a6,a5,0x3
+  40:	0037d893          	srl	a7,a5,0x3
+  44:	4037d913          	sra	s2,a5,0x3
+  48:	fff92993          	slti	s3,s2,-1
+  4c:	fff93a13          	sltiu	s4,s2,-1
+  50:	00192a93          	slti	s5,s2,1
+  54:	00193b13          	seqz	s6,s2
+  58:	0ff67b93          	zext.b	s7,a2
+  5c:	0ff66b93          	or	s7,a2,255
+  60:	00010c37          	lui	s8,0x10
+  64:	fffc0c13          	add	s8,s8,-1 # ffff <main+0xffff>
+  68:	fffc4c93          	not	s9,s8
