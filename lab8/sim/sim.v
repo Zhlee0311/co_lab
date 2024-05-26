@@ -2,129 +2,183 @@
 
 module sim;
 
-  reg clk_H4;
-  reg clk;
-  reg rst;
-  reg [2:0] SW;
-  wire [3:0] FR;
+  reg rst, clk;
+
+  wire clk_n_test;
   wire [2:0] ST;
-  wire [3:0] which;
-  wire [7:0] seg;
-  wire [31:0] inst_test;
+  wire [3:0] FR;
+  wire IS_R, IS_IMM, IS_LUI;
+  wire PC_Write, IR_Write, Reg_Write;
+  wire rs2_imm_s, w_data_s;
+  wire [3:0] ALU_OP, OP;
 
+  wire [ 5:0] PC_out;
+  wire [31:0] IM_out;
 
+  wire [ 2:0] funct3;
+  wire [6:0] opcode, funct7;
+  wire [4:0] rs1, rs2, rd;
+  wire [31:0] inst, imm;
 
-  TOP_TEST uut (
-      .clk_H4(clk_H4),
-      .clk(clk),
+  wire [31:0] Data_A, Data_B;
+  wire [31:0] A, B, F, W_Data;
+
+  TOP_SIM uut (
       .rst(rst),
-      .SW(SW),
-      .FR(FR),
+      .clk(clk),
+      .clk_n_test(clk_n_test),
       .ST(ST),
-      .which(which),
-      .seg(seg),
-      .inst_test(inst_test)
+      .FR(FR),
+      .IS_R(IS_R),
+      .IS_IMM(IS_IMM),
+      .IS_LUI(IS_LUI),
+      .PC_Write(PC_Write),
+      .IR_Write(IR_Write),
+      .Reg_Write(Reg_Write),
+      .rs2_imm_s(rs2_imm_s),
+      .w_data_s(w_data_s),
+      .ALU_OP(ALU_OP),
+      .OP(OP),
+      .PC_out(PC_out),
+      .IM_out(IM_out),
+      .funct3(funct3),
+      .opcode(opcode),
+      .funct7(funct7),
+      .rs1(rs1),
+      .rs2(rs2),
+      .rd(rd),
+      .inst(inst),
+      .imm(imm),
+      .Data_A(Data_A),
+      .Data_B(Data_B),
+      .A(A),
+      .B(B),
+      .F(F),
+      .W_Data(W_Data)
   );
 
-  always begin
-    #2 clk_H4 = ~clk_H4;
-  end
-
-
   initial begin
-    clk_H4 = 0;
-    clk = 0;
     rst = 1;
-    SW = 3'b001;
-    #1 rst = 0;
+    clk = 0;
+    #2 rst = 0;
     repeat (100000) begin
       #10 clk = ~clk;
     end
   end
 
+
 endmodule
 
 
-module TOP_TEST (
-    clk_H4,  //数码管扫描时钟
-    clk,
+
+module TOP_SIM (
     rst,
-    SW,
-    FR,
+    clk,
+    clk_n_test,
     ST,
-    which,
-    seg,
-    inst_test
+    FR,
+    IS_R,
+    IS_IMM,
+    IS_LUI,
+    PC_Write,
+    IR_Write,
+    Reg_Write,
+    rs2_imm_s,
+    w_data_s,
+    ALU_OP,
+    OP,
+    PC_out,
+    IM_out,
+    funct3,
+    opcode,
+    funct7,
+    rs1,
+    rs2,
+    rd,
+    inst,
+    imm,
+    Data_A,
+    Data_B,
+    A,
+    B,
+    F,
+    W_Data
 );
 
-
-  input clk_H4, clk, rst;
-  input [2:0] SW;
-  output [3:0] FR;
+  input rst, clk;
+  output clk_n_test;
   output [2:0] ST;
-  output [3:0] which;
-  output [7:0] seg;
-
+  output [3:0] FR;
+  output IS_R, IS_IMM, IS_LUI;
+  output PC_Write, IR_Write, Reg_Write;
+  output rs2_imm_s, w_data_s;
+  output [3:0] ALU_OP, OP;
+  output [5:0] PC_out;
+  output [31:0] IM_out;
+  output [2:0] funct3;
+  output [6:0] opcode, funct7;
+  output [4:0] rs1, rs2, rd;
+  output [31:0] inst, imm;
+  output [31:0] Data_A, Data_B;
+  output [31:0] A, B, F, W_Data;
 
   wire clk_n;
   assign clk_n = ~clk;
-
-
-  wire IS_R, IS_IMM, IS_LUI;
-  wire PC_Write, IR_Write, Reg_Write;
-  wire rs2_imm_s, w_data_s;
-  wire [ 3:0] OP;
-  wire [ 3:0] ALU_OP;
-  wire [ 5:0] PC_out;
-  wire [31:0] IM_out;
-
-
-  wire [ 2:0] funct3;
-  wire [6:0] opcode, funct7;
-  wire [4:0] rs1, rs2, rd;
-  wire [31:0] imm;
-  wire [31:0] inst;
-  wire [31:0] W_Data;
-
-  wire [31:0] Data_A, Data_B;
-  wire [31:0] A, B, F;
-
-  reg [31:0] data;
-
-
-  output [31:0] inst_test;
-  assign inst_test = inst;
-
-
-  always @(*) begin
-    case (SW)
-      3'b000:  data = {26'b0, PC_out};
-      3'b001:  data = inst;
-      3'b010:  data = W_Data;
-      3'b011:  data = A;
-      3'b100:  data = B;
-      3'b101:  data = F;
-      default: data = 32'h0000_0000;
-    endcase
-  end
-
+  assign clk_n_test = clk_n;
 
   assign W_Data = (w_data_s == 1) ? imm : F;
 
-
-  //数码管显示
-  DISPLAY display (
-      .clk  (clk_H4),
-      .data (data),
-      .which(which),
-      .seg  (seg)
-  );
-
-
-  //控制单元
-  CU cu (
+  //PC-程序计数器
+  PC pc (
       .rst(rst),
       .clk(clk_n),
+      .en (PC_Write),
+      .out(PC_out)
+  );
+
+  //IM-指令存储器
+  ROM_B rom_b (
+      .clka (clk),
+      .addra(PC_out),
+      .douta(IM_out)
+  );
+
+  //IR-指令寄存器
+  IR ir (
+      .rst(rst),
+      .clk(clk_n),
+      .en (IR_Write),
+      .in (IM_out),
+      .out(inst)
+  );
+
+  //ID1-初级译码
+  ID1 id1 (
+      .inst(inst),
+      .rs1(rs1),
+      .rs2(rs2),
+      .rd(rd),
+      .opcode(opcode),
+      .funct3(funct3),
+      .funct7(funct7),
+      .imm(imm)
+  );
+
+  //ID2-次级译码
+  ID2 id2 (
+      .opcode(opcode),
+      .funct3(funct3),
+      .funct7(funct7),
+      .IS_R  (IS_R),
+      .IS_IMM(IS_IMM),
+      .IS_LUI(IS_LUI),
+      .ALU_OP(ALU_OP)
+  );
+
+  //CU-控制单元
+  CU cu (
+      .rst(rst),
+      .clk(clk),
       .IS_R(IS_R),
       .IS_IMM(IS_IMM),
       .IS_LUI(IS_LUI),
@@ -138,55 +192,7 @@ module TOP_TEST (
       .ST(ST)
   );
 
-  //程序计数器
-  PC pc (
-      .rst(rst),
-      .clk(clk_n),
-      .en (PC_Write),
-      .out(PC_out)
-  );
-
-
-  //指令存储器
-  ROM_B rom_b (
-      .clka (clk),
-      .addra(PC_out),
-      .douta(IM_out)
-  );
-
-  //指令寄存器
-  IR ir (
-      .rst(rst),
-      .clk(clk_n),
-      .en (IR_Write),
-      .in (IM_out),
-      .out(inst)
-  );
-
-  //初级译码
-  ID1 id1 (
-      .inst(inst),
-      .rs1(rs1),
-      .rs2(rs2),
-      .rd(rd),
-      .opcode(opcode),
-      .funct3(funct3),
-      .funct7(funct7),
-      .imm(imm)
-  );
-
-  //二级译码
-  ID2 id2 (
-      .opcode(opcode),
-      .funct3(funct3),
-      .funct7(funct7),
-      .IS_R  (IS_R),
-      .IS_IMM(IS_IMM),
-      .IS_LUI(IS_LUI),
-      .ALU_OP(ALU_OP)
-  );
-
-  //寄存器堆
+  //REG_HEAP-寄存器堆
   REG_HEAP reg_heap (
       .rst(rst),
       .clk(clk_n),
@@ -199,7 +205,7 @@ module TOP_TEST (
       .R_Data_B(Data_B)
   );
 
-
+  //ALU_REG-带有暂存器的ALU
   ALU_REG alu_reg (
       .OP(OP),
       .rs2_imm_s(rs2_imm_s),
@@ -214,6 +220,5 @@ module TOP_TEST (
       .F(F),
       .FR(FR)
   );
-
 
 endmodule

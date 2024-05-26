@@ -40,12 +40,12 @@ module ID1 (
 
   // 生成各种格式的立即数
   wire [31:0] imm_I_shift, imm_I_other, imm_S, imm_B, imm_U, imm_J;  //各种格式的立即数
-  assign imm_I_shift = {27'b0, inst[24:20]};  //imm_type=001
-  assign imm_I_other = {{20{inst[31]}}, inst[31:20]};  //imm_type=010
-  assign imm_S = {{20{inst[31]}}, inst[31:25], inst[11:7]};  //imm_type=011
-  assign imm_B = {{20{inst[31]}}, inst[7], inst[30:25], inst[11:8], 1'b0};  //imm_type=100
-  assign imm_U = {inst[31:12], 12'b0};  //imm_type=101
-  assign imm_J = {{12{inst[31]}}, inst[19:12], inst[20], inst[30:21], 1'b0};  //imm_type=110
+  assign imm_I_shift = {27'b0, inst[24:20]};  //imm_type=3'b001
+  assign imm_I_other = {{20{inst[31]}}, inst[31:20]};  //imm_type=3'b010
+  assign imm_S = {{20{inst[31]}}, inst[31:25], inst[11:7]};  //imm_type=3'b011
+  assign imm_B = {{20{inst[31]}}, inst[7], inst[30:25], inst[11:8], 1'b0};  //imm_type=3'b100
+  assign imm_U = {inst[31:12], 12'b0};  //imm_type=3'b101
+  assign imm_J = {{12{inst[31]}}, inst[19:12], inst[20], inst[30:21], 1'b0};  //imm_type=3'b110
 
   reg [2:0] imm_type;  //立即数类型
 
@@ -79,8 +79,8 @@ module ID1 (
     endcase
   end
 
-
 endmodule
+
 
 
 

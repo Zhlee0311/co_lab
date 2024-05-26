@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 
+
 module ALU_REG (
     OP,
     rs2_imm_s,
@@ -28,15 +29,15 @@ module ALU_REG (
 
 
   REG R_A (
-      .clk(clk_RR),
       .rst(rst),
+      .clk(clk_RR),
       .in (Data_A),
       .out(A)
   );
 
   REG R_B (
-      .clk(clk_RR),
       .rst(rst),
+      .clk(clk_RR),
       .in (Data_B),
       .out(B)
   );
@@ -53,24 +54,20 @@ module ALU_REG (
   );
 
   REG R_F (
-      .clk(clk_F),
       .rst(rst),
+      .clk(clk_F),
       .in (F_tmp),
       .out(F)
   );
 
-
   REG R_FR (
-      .clk(clk_F),
       .rst(rst),
+      .clk(clk_F),
       .in ({28'b0, ZF, CF, OF, SF}),
       .out(FR)
   );
 
-
 endmodule
-
-
 
 
 
@@ -123,19 +120,23 @@ module ALU (
 endmodule
 
 
+
 module REG (
-    clk,
     rst,
+    clk,
     in,
     out
 );
-
-  input clk, rst;
+  input rst, clk;
   input [31:0] in;
   output reg [31:0] out;
 
   always @(posedge rst or posedge clk) begin
-    if (rst) out <= 32'h0000_0000;
-    else out <= in;
+    if (rst) begin
+      out <= 32'h0000_0000;
+    end else begin
+      out <= in;
+    end
   end
+
 endmodule
