@@ -15,7 +15,8 @@ module REG_HEAP (
 
   input rst, clk, en;
   input [4:0] R_Addr_A, R_Addr_B, W_Addr;
-  input [31:0] W_Data, R_Data_A, R_Data_B;
+  input [31:0] W_Data;
+  output [31:0] R_Data_A, R_Data_B;
 
 
   reg [31:0] REG_Files[0:31];
