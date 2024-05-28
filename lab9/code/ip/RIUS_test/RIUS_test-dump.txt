@@ -1,0 +1,44 @@
+
+RIUS_test.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <main>:
+   0:	01000f93          	li	t6,16
+   4:	000fad03          	lw	s10,0(t6)
+   8:	004fad83          	lw	s11,4(t6)
+   c:	01bfa023          	sw	s11,0(t6)
+  10:	01afa223          	sw	s10,4(t6)
+  14:	000fad03          	lw	s10,0(t6)
+  18:	004fad83          	lw	s11,4(t6)
+  1c:	01bd0e33          	add	t3,s10,s11
+  20:	01c02823          	sw	t3,16(zero) # 10 <main+0x10>
+  24:	01002e83          	lw	t4,16(zero) # 10 <main+0x10>
+  28:	87600093          	li	ra,-1930
+  2c:	00400113          	li	sp,4
+  30:	002081b3          	add	gp,ra,sp
+  34:	40208233          	sub	tp,ra,sp
+  38:	002092b3          	sll	t0,ra,sp
+  3c:	0020d333          	srl	t1,ra,sp
+  40:	4020d3b3          	sra	t2,ra,sp
+  44:	0020a433          	slt	s0,ra,sp
+  48:	0020b4b3          	sltu	s1,ra,sp
+  4c:	0062f533          	and	a0,t0,t1
+  50:	0062e5b3          	or	a1,t0,t1
+  54:	0062c633          	xor	a2,t0,t1
+  58:	800006b7          	lui	a3,0x80000
+  5c:	fff68713          	add	a4,a3,-1 # 7fffffff <main+0x7fffffff>
+  60:	12370793          	add	a5,a4,291
+  64:	00379813          	sll	a6,a5,0x3
+  68:	0037d893          	srl	a7,a5,0x3
+  6c:	4037d913          	sra	s2,a5,0x3
+  70:	fff92993          	slti	s3,s2,-1
+  74:	fff93a13          	sltiu	s4,s2,-1
+  78:	00192a93          	slti	s5,s2,1
+  7c:	00193b13          	seqz	s6,s2
+  80:	0ff67b93          	zext.b	s7,a2
+  84:	0ff66b93          	or	s7,a2,255
+  88:	00010c37          	lui	s8,0x10
+  8c:	fffc0c13          	add	s8,s8,-1 # ffff <main+0xffff>
+  90:	fffc4c93          	not	s9,s8
