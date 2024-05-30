@@ -1,0 +1,31 @@
+
+RIUSJB_test.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <main>:
+   0:	01000513          	li	a0,16
+   4:	00306593          	or	a1,zero,3
+   8:	03004613          	xor	a2,zero,48
+   c:	010000ef          	jal	1c <BankSum>
+  10:	00062403          	lw	s0,0(a2)
+  14:	00000033          	add	zero,zero,zero
+  18:	00000033          	add	zero,zero,zero
+
+0000001c <BankSum>:
+  1c:	000502b3          	add	t0,a0,zero
+  20:	0005e333          	or	t1,a1,zero
+  24:	000073b3          	and	t2,zero,zero
+
+00000028 <L>:
+  28:	0002ae03          	lw	t3,0(t0)
+  2c:	01c383b3          	add	t2,t2,t3
+  30:	00428293          	add	t0,t0,4
+  34:	fff30313          	add	t1,t1,-1
+  38:	00030463          	beqz	t1,40 <exit>
+  3c:	fedff06f          	j	28 <L>
+
+00000040 <exit>:
+  40:	00762023          	sw	t2,0(a2)
+  44:	00008067          	ret
