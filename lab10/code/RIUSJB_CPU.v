@@ -190,7 +190,7 @@ module RIUSJB_CPU (
   RAM dm (
       .clka (clk),
       .wea  (Mem_Write),
-      .addra(F[5:0]),
+      .addra(F[7:2]),
       .dina (B),
       .douta(DM_out)
   );
