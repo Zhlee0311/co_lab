@@ -1,6 +1,6 @@
 # HDU_COexperiments
 
-# 杭电2023-2024第二学期计科计算机组成原理实验
+# 杭电2023-2024第二学期计科计算机组成原理实验——RiscV版
 
 ## 1. 文件结构
 
@@ -53,4 +53,5 @@
 
   *Preconditions*
     - **ECS** 或 **Ubuntu**
-    
+
+- [NJU的一篇实验教程文档，很有帮助](https://nju-projectn.github.io/dlco-lecture-note/exp/11.html)
